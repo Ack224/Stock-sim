@@ -1,0 +1,5 @@
+export const posts = [
+    { id: 1, title: 'Wprowadzenie do React', content: 'React to biblioteka JavaScript do budowy interfejsów...', author: 'Jan Kowalski' },
+    { id: 2, title: 'Czym jest React Router?', content: 'React Router pozwala tworzyć SPA z nawigacją...', author: 'Anna Nowak' },
+    { id: 3, title: 'Hooki w React', content: 'useState, useEffect, useContext - poznaj najpopularniejsze hooki...', author: 'Piotr Wiśniewski' },
+];
