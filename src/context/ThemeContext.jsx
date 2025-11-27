@@ -5,7 +5,7 @@ const ThemeContext = createContext();
 
 // 2. Dostawca motywu (otacza całą aplikację)
 export const ThemeProvider = ({ children }) => {
-    const [theme, setTheme] = useState('light'); // Domyślnie jasny
+    const [theme, setTheme] = useState('dark'); // Domyślnie jasny
 
     // Funkcja zmiany motywu
     const toggleTheme = () => {

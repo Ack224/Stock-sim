@@ -1,180 +1,183 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { LineChart, Line, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useTheme } from '../context/ThemeContext';
 
 export default function Portfolio() {
+    const { theme } = useTheme();
 
-    // 1. GENEROWANIE HISTORII NA START
+    // --- DANE I STANY ---
     const generateHistory = () => {
-        const data = [];
-        let currentPrice = 100;
-        for (let i = 0; i < 50; i++) { // 50 punktów historii
-            const change = (Math.random() - 0.5) * 4;
-            currentPrice = Math.max(10, currentPrice + change);
-            data.push({ id: i, price: currentPrice }); // Każdy punkt ma unikalne ID
+        let data = [];
+        let price = 100;
+        for (let i = 0; i < 50; i++) {
+            price = Math.max(10, price + (Math.random() - 0.5) * 4);
+            data.push({ id: i, price: price, akcja: null });
         }
         return data;
     };
 
-    // 2. STANY
-    const [history, setHistory] = useState(() => generateHistory());
-    const [price, setPrice] = useState(() => history[history.length - 1].price);
-
-    // Licznik, żeby każdy kolejny punkt miał wyższe ID (dzięki temu wykres się przesuwa)
+    const [history, setHistory] = useState(generateHistory);
+    const [price, setPrice] = useState(history[history.length - 1].price);
+    const [money, setMoney] = useState(() => parseFloat(localStorage.getItem('gameMoney')) || 1000);
+    const [shares, setShares] = useState(() => parseInt(localStorage.getItem('gameShares')) || 0);
+    const [predkosc, setPredkosc] = useState(1000);
+    const [komunikat, setKomunikat] = useState("");
     const counterRef = useRef(50);
 
-    const [money, setMoney] = useState(() => {
-        const saved = localStorage.getItem('gameMoney');
-        return saved ? parseFloat(saved) : 1000;
-    });
-
-    const [shares, setShares] = useState(() => {
-        const saved = localStorage.getItem('gameShares');
-        return saved ? parseInt(saved) : 0;
-    });
-
-    // 3. ZAPIS DO PAMIĘCI
+    // ZAPIS
     useEffect(() => {
         localStorage.setItem('gameMoney', money);
         localStorage.setItem('gameShares', shares);
     }, [money, shares]);
 
-    // 4. SYMULACJA RYNKU (Interwał)
+    // --- SILNIK GRY ---
     useEffect(() => {
         const interval = setInterval(() => {
             setPrice((prevPrice) => {
-                const change = (Math.random() - 0.5) * 6; // Zmienność ceny
-                let newPrice = prevPrice + change;
-                if (newPrice < 10) newPrice = 10; // Minimalna cena to 10$
+                const los = Math.random();
+                let change = (Math.random() - 0.5) * 6;
 
-                setHistory((prevHistory) => {
-                    const newId = counterRef.current++; // Zwiększamy licznik
-                    const newHistory = [...prevHistory, { id: newId, price: newPrice }];
+                // EVENTY
+                if (los < 0.01) { // 1% szans na Krach
+                    change = -(prevPrice * 0.30);
+                    setKomunikat("📉 KRACH RYNKOWY!");
+                    setTimeout(() => setKomunikat(""), 2500);
+                }
+                else if (los > 0.99) { // 1% szans na Hossę
+                    change = (prevPrice * 0.30);
+                    setKomunikat("🚀 TO THE MOON!");
+                    setTimeout(() => setKomunikat(""), 2500);
+                }
 
-                    // Usuwamy stary punkt, żeby wykres nie był nieskończenie długi
+                let newPrice = Math.max(1, prevPrice + change);
+
+                setHistory((prev) => {
+                    const newPoint = { id: counterRef.current++, price: newPrice, akcja: null };
+                    const newHistory = [...prev, newPoint];
                     if (newHistory.length > 50) newHistory.shift();
-
                     return newHistory;
                 });
-
                 return newPrice;
             });
-        }, 1000); // Co 1 sekundę
-
+        }, predkosc);
         return () => clearInterval(interval);
-    }, []);
+    }, [predkosc]);
 
-    // KUPNO / SPRZEDAŻ
-    const handleBuy = () => {
-        if (money >= price) {
-            setShares(shares + 1);
-            setMoney(money - price);
-        }
+    // --- FUNKCJE POMOCNICZE ---
+    const oznacz = (typ) => {
+        setHistory(prev => {
+            const kopia = [...prev];
+            kopia[kopia.length - 1] = { ...kopia[kopia.length - 1], akcja: typ };
+            return kopia;
+        });
     };
 
-    const handleSell = () => {
-        if (shares > 0) {
-            setShares(shares - 1);
-            setMoney(money + price);
-        }
+    const kup = () => { if (money >= price) { setShares(shares + 1); setMoney(money - price); oznacz('kupno'); } };
+    const kupMax = () => { const ile = Math.floor(money / price); if (ile > 0) { setShares(shares + ile); setMoney(money - ile * price); oznacz('kupno'); } };
+    const sprzedaj = () => { if (shares > 0) { setShares(shares - 1); setMoney(money + price); oznacz('sprzedaz'); } };
+    const sprzedajMax = () => { if (shares > 0) { setMoney(money + shares * price); setShares(0); oznacz('sprzedaz'); } };
+    const reset = () => { setMoney(1000); setShares(0); setHistory(generateHistory()); setKomunikat(""); };
+
+    // Kropka na wykresie
+    const Kropka = ({ cx, cy, payload }) => {
+        if (payload.akcja === 'kupno') return <circle cx={cx} cy={cy} r={6} fill="#10b981" stroke="white" strokeWidth={2} />;
+        if (payload.akcja === 'sprzedaz') return <circle cx={cx} cy={cy} r={6} fill="#ef4444" stroke="white" strokeWidth={2} />;
+        return null;
     };
 
-    const handleReset = () => {
-        setMoney(1000);
-        setShares(0);
-        counterRef.current = 50;
-        const newHistory = generateHistory();
-        setHistory(newHistory);
-        setPrice(newHistory[newHistory.length - 1].price);
-    };
-
-    const totalValue = money + (shares * price);
+    const txtColor = theme === 'dark' ? 'white' : '#1e293b';
 
     return (
-        <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto', fontFamily: 'Arial, sans-serif' }}>
+        // DODANO position: relative, żeby alert wiedział względem czego się ustawić
+        <div style={{ position: 'relative', padding: '20px', maxWidth: '800px', margin: '0 auto', color: txtColor, minHeight: '85vh' }}>
 
-            <h1 style={{ textAlign: 'center' }}>Giełda: CyberCoin (CBC)</h1>
+            <h1 style={{ textAlign: 'center' }}>Giełda: CyberCoin</h1>
 
-            {/* PANEL WYNIKÓW */}
-            <div style={{
-                display: 'flex', justifyContent: 'space-between',
-                background: '#1e293b', color: 'white', padding: '20px',
-                borderRadius: '12px', marginBottom: '20px'
-            }}>
-                <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '0.8em', opacity: 0.7 }}>GOTÓWKA</div>
-                    <div style={{ fontSize: '1.4em', color: '#4caf50', fontWeight: 'bold' }}>${money.toFixed(2)}</div>
+            {/* ALERT / KOMUNIKAT (TERAZ LATA NAD WSZYSTKIM) */}
+            {komunikat && (
+                <div style={{
+                    position: 'absolute',      // To sprawia, że nie przesuwa innych elementów
+                    top: '150px',              // Pozycja od góry
+                    left: '50%',               // Środek poziomo
+                    transform: 'translate(-50%, 0)', // Idealne wyśrodkowanie
+                    zIndex: 100,               // Musi być nad wykresem
+                    padding: '15px 30px',
+                    borderRadius: '12px',
+                    fontWeight: 'bold',
+                    fontSize: '1.5rem',
+                    boxShadow: '0 10px 25px rgba(0,0,0,0.5)', // Cień dla efektu 3D
+                    backgroundColor: komunikat.includes('KRACH') ? '#ef4444' : '#10b981',
+                    color: 'white',
+                    border: '2px solid white',
+                    animation: 'wyskoczenie 0.3s ease-out forwards' // Animacja wejścia
+                }}>
+                    {komunikat}
                 </div>
-                <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '0.8em', opacity: 0.7 }}>AKCJE</div>
-                    <div style={{ fontSize: '1.4em', color: '#3b82f6', fontWeight: 'bold' }}>{shares}</div>
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '0.8em', opacity: 0.7 }}>WARTOŚĆ</div>
-                    <div style={{ fontSize: '1.4em', fontWeight: 'bold' }}>${totalValue.toFixed(2)}</div>
-                </div>
+            )}
+
+            {/* DEFINICJA ANIMACJI CSS */}
+            <style>{`
+                @keyframes wyskoczenie {
+                    0% { transform: translate(-50%, 20px); opacity: 0; }
+                    80% { transform: translate(-50%, -5px); opacity: 1; }
+                    100% { transform: translate(-50%, 0); opacity: 1; }
+                }
+            `}</style>
+
+            {/* GÓRNY PASEK */}
+            <div style={{ display: 'flex', justifyContent: 'space-around', background: theme === 'dark' ? '#334155' : '#f1f5f9', padding: '15px', borderRadius: '10px', marginBottom: '20px' }}>
+                <div>Kasa: <b style={{ color: '#10b981' }}>${money.toFixed(2)}</b></div>
+                <div>Akcje: <b style={{ color: '#3b82f6' }}>{shares}</b></div>
+                <div>Wartość: <b>${(money + shares * price).toFixed(2)}</b></div>
             </div>
 
             {/* WYKRES */}
-            <div style={{ height: '300px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '10px', marginBottom: '20px' }}>
+            <div style={{ height: '350px', background: theme === 'dark' ? '#0f172a' : '#fff', borderRadius: '12px', padding: '10px', border: '1px solid #ccc' }}>
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={history}>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
-                        {/* domain=['auto', 'auto'] sprawia, że wykres skaluje się do ceny */}
-                        <YAxis domain={['dataMin - 5', 'dataMax + 5']} hide={false} width={40} tick={{ fontSize: 11 }} />
-                        <Tooltip
-                            isAnimationActive={false} // Wyłączamy animację tooltipa
-                            labelStyle={{ display: 'none' }}
-                            formatter={(value) => [`$${value.toFixed(2)}`, 'Cena']}
-                        />
-                        <Line
-                            type="linear" // 'linear' jest bardziej kanciasty i stabilny niż 'monotone'
-                            dataKey="price"
-                            stroke="#2563eb"
-                            strokeWidth={2}
-                            dot={false}
-                            isAnimationActive={false} // KLUCZOWE: Wyłącza "pływanie" linii
-                        />
+                        <CartesianGrid strokeDasharray="3 3" stroke={theme === 'dark' ? '#333' : '#eee'} />
+                        <YAxis domain={['auto', 'auto']} width={40} tick={{ fontSize: 12 }} />
+                        <Tooltip contentStyle={{ background: theme === 'dark' ? '#000' : '#fff' }} formatter={(v) => [v.toFixed(2), 'Cena']} />
+                        <Line type="linear" dataKey="price" stroke={theme === 'dark' ? '#4ade80' : '#2563eb'} strokeWidth={3} isAnimationActive={false} dot={<Kropka />} />
                     </LineChart>
                 </ResponsiveContainer>
             </div>
 
-            {/* PRZYCISKI */}
-            <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '2em', fontWeight: 'bold', marginBottom: '15px', color: '#1e293b' }}>
-                    ${price.toFixed(2)}
-                </div>
+            <h2 style={{ textAlign: 'center', fontSize: '2.5rem', margin: '10px 0' }}>${price.toFixed(2)}</h2>
 
-                <div style={{ display: 'flex', gap: '15px', justifyContent: 'center' }}>
-                    <button
-                        onClick={handleBuy}
-                        disabled={money < price}
-                        style={{
-                            padding: '12px 40px', fontSize: '1.1em', fontWeight: 'bold',
-                            backgroundColor: money >= price ? '#10b981' : '#cbd5e1',
-                            color: 'white', border: 'none', borderRadius: '8px', cursor: money >= price ? 'pointer' : 'not-allowed'
-                        }}
-                    >
-                        KUP
-                    </button>
-
-                    <button
-                        onClick={handleSell}
-                        disabled={shares === 0}
-                        style={{
-                            padding: '12px 40px', fontSize: '1.1em', fontWeight: 'bold',
-                            backgroundColor: shares > 0 ? '#ef4444' : '#cbd5e1',
-                            color: 'white', border: 'none', borderRadius: '8px', cursor: shares > 0 ? 'pointer' : 'not-allowed'
-                        }}
-                    >
-                        SPRZEDAJ
-                    </button>
-                </div>
-
-                <button onClick={handleReset} style={{ marginTop: '20px', background: 'none', border: 'none', textDecoration: 'underline', cursor: 'pointer', color: '#888' }}>
-                    Zresetuj grę
-                </button>
+            {/* PRĘDKOŚĆ */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
+                <span style={{ alignSelf: 'center', fontWeight: 'bold' }}>Prędkość:</span>
+                <button onClick={() => setPredkosc(2000)} style={btnSpeed(predkosc === 2000)}>Wolno</button>
+                <button onClick={() => setPredkosc(1000)} style={btnSpeed(predkosc === 1000)}>Normalnie</button>
+                <button onClick={() => setPredkosc(250)} style={btnSpeed(predkosc === 250)}>🔥 Szybko</button>
             </div>
 
+            {/* PRZYCISKI AKCJI */}
+            <div style={{ maxWidth: '450px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    <button onClick={kup} disabled={money < price} style={btnAction('green')}>KUP</button>
+                    <button onClick={sprzedaj} disabled={shares === 0} style={btnAction('red')}>SPRZEDAJ</button>
+                </div>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    <button onClick={kupMax} disabled={money < price} style={{ ...btnAction('green'), border: '2px solid gold' }}>KUP MAX</button>
+                    <button onClick={sprzedajMax} disabled={shares === 0} style={{ ...btnAction('red'), border: '2px solid orange' }}>SPRZEDAJ MAX</button>
+                </div>
+            </div>
+
+            <div style={{ textAlign: 'center', marginTop: '30px' }}>
+                <button onClick={reset} style={{ background: 'none', border: 'none', color: 'gray', cursor: 'pointer', textDecoration: 'underline' }}>Reset gry</button>
+            </div>
         </div>
     );
 }
+
+// Style pomocnicze
+const btnAction = (col) => ({
+    flex: 1, padding: '15px', border: 'none', borderRadius: '8px', color: 'white', fontWeight: 'bold', cursor: 'pointer',
+    background: col === 'green' ? '#10b981' : '#ef4444', opacity: 0.9
+});
+const btnSpeed = (active) => ({
+    padding: '5px 15px', borderRadius: '20px', border: '1px solid gray', cursor: 'pointer',
+    background: active ? '#3b82f6' : 'transparent', color: active ? 'white' : 'inherit', fontWeight: active ? 'bold' : 'normal'
+});

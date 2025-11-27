@@ -2,6 +2,11 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
+// 1. IMPORTUJEMY NASZ KONTEKST (MÓZG OD KOLORÓW)
+import { ThemeProvider } from './context/ThemeContext'
+
+// Twoje importy stron
 import Home from './pages/Home'
 import About from './pages/About'
 import Contact from './pages/Contact'
@@ -10,15 +15,15 @@ import Navigation from './components/Navigation'
 import Blog from './pages/Blog'
 import Layout from './components/Layout'
 import BlogPost from './pages/BlogPost'
-import AdminDashboard from './pages/AdminDashboard'
+// import AdminDashboard from './pages/AdminDashboard' // To chyba nieużywane, skoro masz Adminav
 import AdminUsers from './pages/AdminUsers'
 import AdminSettings from './pages/AdminSettings'
 import Adminav from './pages/Adminnav'
 import LoginForm from './pages/LoginForm'
 import Gry from './pages/Gry'
 import Gras from './pages/Gras'
+
 const router = createBrowserRouter([
-    
   {
     path: '/',
     element: <Layout />,
@@ -27,11 +32,9 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />
-
       },
-
       {
-        path: '/o-nas',
+        path: '/symulator',
         element: <About />
       },
       {
@@ -41,14 +44,10 @@ const router = createBrowserRouter([
       {
         path: '/Blog',
         element: <Blog />
-
-
       },
-       {
+      {
         path: '/Gry',
         element: <Gry />
-
-
       },
       {
         path: '/Login',
@@ -56,25 +55,15 @@ const router = createBrowserRouter([
       },
       {
         path: '/NotFound',
-
-        element:
-          <>
-
-            <Navigation />
-          </>
-
+        element: <><Navigation /></>
       },
       {
         path: '/Blog/:postId',
         element: <BlogPost />
-
-
       },
       {
         path: '/Gry/:graid',
         element: <Gras />
-
-
       },
       {
         path: '/Admin',
@@ -91,13 +80,14 @@ const router = createBrowserRouter([
         ]
       },
     ]
-
-
   },
-
 ])
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    {/* 2. OWIJAMY CAŁĄ APLIKACJĘ PROVIDEREM, ŻEBY KAŻDA STRONA WIDZIAŁA KOLORY */}
+    <ThemeProvider>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </StrictMode>,
 )

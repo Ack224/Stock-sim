@@ -1,82 +1,88 @@
 /* src/components/Navigation.css */
 
 :root {
-    --primary-green: #059669;
-    /* Ciemniejsza zieleń dla kontrastu na białym */
-    --text-dark: #1e293b;
-    /* Prawie czarny */
-    --text-gray: #64748b;
-    /* Szary */
+    --bg-dark: #0f172a;
+    /* Ciemne tło (Slate 900) */
+    --text-gray: #94a3b8;
+    /* Szary tekst (Slate 400) */
+    --accent-green: #10b981;
+    /* Giełdowa zieleń (Emerald 500) */
 }
 
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 0.8rem 2rem;
 
-    background: var(--nav-bg);
-
-
+    /* Idealne dopasowanie do tła z efektem szkła */
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
     position: sticky;
     top: 0;
     z-index: 1000;
-
-    /* TU JEST ZMIANA - Większy i ciemniejszy cień */
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
 }
 
-/* Logo - ciemne na białym tle */
+/* Logo - proste i techniczne */
 .nav-logo {
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: var(--text-dark);
+    font-family: 'Inter', sans-serif;
+    /* Upewnij się że masz czcionkę lub systemową */
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
     text-decoration: none;
+    letter-spacing: -0.5px;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
+}
+
+.logo-icon {
+    color: var(--accent-green);
 }
 
 .nav-links-container {
     display: flex;
-    gap: 10px;
+    gap: 5px;
     align-items: center;
 }
 
-/* Linki */
+/* Linki - minimalistyczne */
 .nav-item {
     text-decoration: none;
     color: var(--text-gray);
-    font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    font-weight: 500;
     padding: 8px 16px;
-    border-radius: 8px;
+    border-radius: 6px;
     transition: all 0.2s ease;
 }
 
 .nav-item:hover {
-    color: var(--primary-green);
-    background: rgba(5, 150, 105, 0.05);
+    color: white;
+    background: rgba(255, 255, 255, 0.03);
 }
 
-/* Aktywny link */
+/* Aktywny link - tylko delikatna zieleń */
 .nav-item.active {
-    color: var(--primary-green);
-    background: rgba(5, 150, 105, 0.1);
+    color: var(--accent-green);
+    background: rgba(16, 185, 129, 0.1);
 }
 
-/* Przycisk Login */
+/* Przycisk Login - subtelny outline */
 .nav-btn-login {
-    background-color: var(--text-dark);
-    color: white !important;
-    padding: 8px 20px;
-    border-radius: 8px;
-    margin-left: 10px;
+    margin-left: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 6px 18px;
+    border-radius: 6px;
+    font-size: 0.9rem;
 }
 
 .nav-btn-login:hover {
-    background-color: black;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+    background: transparent;
 }
