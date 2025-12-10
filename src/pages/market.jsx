@@ -8,6 +8,7 @@ export default function Market() {
     const { theme } = useTheme();
     // Używamy naszych ulubionych
     // zmana halo działaj to ważne 
+    //test
     const { toggleFavorite, isFavorite } = useFavorites();
 
     const isDark = theme === 'dark';

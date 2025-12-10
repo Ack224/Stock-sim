@@ -21,7 +21,7 @@ export default function Home() {
         }, 1000);
         return () => clearInterval(interval);
     }, []);
-
+// działaj test test
     return (
         // Usunąłem tło z tego miejsca, bo jest teraz w Layout
         <div style={{ width: '100%', minHeight: '80vh', color: textColor }}>
