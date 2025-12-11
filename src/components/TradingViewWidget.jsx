@@ -24,8 +24,8 @@ function TradingViewWidget({ symbol }) {
             "height": "100%",
             "locale": "en",
             "dateRange": "12M",
-            "backgroundColor": "rgba(0, 0, 0, 0)",
-            "isTransparent": false, // Przeźroczyste tło, żeby pasowało do apki
+            "colorTheme": "dark",
+            "isTransparent": true, // Przeźroczyste tło, żeby pasowało do apki
             "autosize": true,
             "largeChartUrl": ""
         });
