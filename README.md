@@ -2,27 +2,24 @@
 
 Aplikacja do śledzenia cen kryptowalut w czasie rzeczywistym z wykresami technicznymi.
 
----
+
 
 ## 📸 Wygląd aplikacji
+<img src="src/assets/ss1.png" alt="Strona główna" width="100%">
 
-| Strona główna | Rynek |
-|---|---|
-| ![Home](src/assets/ss1.png) | ![Market](src/assets/ss2.png) |
-
----
+<img src="src/assets/ss2.png" alt="Rynek" width="100%">
 
 ## ✨ Co może robić?
 
 ✅ Przeglądaj TOP 50 kryptowalut z aktualnymi cenami  
 ✅ Dodawaj/usuwaj waluty do ulubionych  
 ✅ Oglądaj wykresy techniczne z TradingView  
-✅ Przełącz ciemny/jasny motyw  
+✅ ciemny/jasny motyw  
 ✅ Formularz kontaktowy z walidacją  
 ✅ Pełna responsywność (mobile, tablet, desktop)  
 ✅ Animowane tło
 
----
+
 
 ## 🚀 Szybki start
 
@@ -35,7 +32,7 @@ npm run dev
 
 Aplikacja otwiera się na `http://localhost:5173`
 
----
+
 
 ## 🛠️ Użyte technologie
 
@@ -48,7 +45,7 @@ Aplikacja otwiera się na `http://localhost:5173`
 | TradingView | Wykresy |
 | localStorage | Pamiętanie wyborów |
 
----
+
 
 ## 📁 Struktura
 
@@ -60,7 +57,7 @@ src/
 └── App.jsx
 ```
 
----
+
 
 ## 🎯 Jak to działa?
 
@@ -72,7 +69,7 @@ src/
 5 stron: Home → Market → Obserwacje → Kontakt → NotFound
 
 ### API
-Dane z publicznego API CoinGecko (bez kluczy API)
+Dane z publicznego API CoinGecko 
 
 ### Tło (animacja SVG)
 Na tle generowana jest losowa linia wykresu. Zaczyna się z lewej, płynnie porusza się w prawo, powtarza się w kółko.
@@ -80,12 +77,12 @@ Na tle generowana jest losowa linia wykresu. Zaczyna się z lewej, płynnie poru
 ### Widgety TradingView
 To małe wykresy z aplikacji TradingView. Ładują się dynamicznie gdy klikniesz na walutę – pobierają dane finansowe z internetu i wyświetlają je na żywo.
 
----
+
 
 ## 📱 Responsywność
 
 **Na małym ekranie (telefon):**
-- Nawigacja schowuje się w hamburger menu
+- Nawigacja ukrywa się w hamburger menu
 - Elementy ułożone w jedną kolumnę
 
 **Na średnim ekranie (tablet):**
@@ -94,7 +91,7 @@ To małe wykresy z aplikacji TradingView. Ładują się dynamicznie gdy kliknies
 **Na dużym ekranie (komputer):**
 - Pełna nawigacja widoczna zawsze
 
----
+
 
 ## 🐛 Znane problemy
 
@@ -102,31 +99,26 @@ To małe wykresy z aplikacji TradingView. Ładują się dynamicznie gdy kliknies
 2. TradingView wymaga internetu
 3. Hamburger nie zamyka się automatycznie
 
----
+
 
 ## 💡 Co było najtrudniejsze?
-
-**Wielkość liter w importach** – Na Windows `Market.jsx` vs `market.jsx` to różne pliki  
+ 
 **TradingView Widgety** – Wykresy nie wyświetlały się z pierwszą próby, trzeba było wyczyścić kontener przed załadowaniem nowego  
 **Pamiętanie wyborów** – Gdy odświeżysz stronę, ulubione powinny zostać. Rozwiązanie: zapisywanie w pamięci przeglądarki
 
----
+
 
 ## 🔮 Plany na przyszłość
 
 - Live updates (WebSocket)
-- Nieskończony scroll
+- Wyszukiwarka
+- Dodanie wykresów akcji
 - Login
-- Eksport do CSV/PDF
-- Progressive Web App
 
----
+
 
 ## 📞 Kontakt
 
 GitHub: [@Ack224](https://github.com/Ack224/stock-sim)
 
----
 
-**Licencja:** MIT  
-**Czas projektu:** ~40h
