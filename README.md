@@ -2,12 +2,12 @@
 
 Aplikacja do śledzenia cen kryptowalut w czasie rzeczywistym z wykresami technicznymi.
 
-
+### Live Demo https://stock-sim-alpha.vercel.app/
 
 ## 📸 Wygląd aplikacji
 <img src="src/assets/ss1.png" alt="Strona główna" width="100%">
 
-<img src="src/assets/ss2.png" alt="Rynek" width="100%">
+<img src="src/assets/ss3.png" alt="Rynek" width="100%">
 
 ## ✨ Co może robić?
 
@@ -17,21 +17,30 @@ Aplikacja do śledzenia cen kryptowalut w czasie rzeczywistym z wykresami techni
 ✅ ciemny/jasny motyw  
 ✅ Formularz kontaktowy z walidacją  
 ✅ Pełna responsywność (mobile, tablet, desktop)  
-✅ Animowane tło
+✅ Animowane tło      
+✅ Wyszukuj waluty po nazwie lub skrócie (np. "Bitcoin", "BTC")
 
 
 
-## 🚀 Szybki start
+## ⚙️ Instalacja i Uruchomienie
 
+Aby uruchomić projekt na swoim komputerze wykonaj te 3 kroki w terminalu:
+
+**1. Pobierz pliki projektu**
 ```bash
 git clone https://github.com/Ack224/stock-sim.git
 cd stock-sim
-npm install
-npm run dev
 ```
 
-Aplikacja otwiera się na `http://localhost:5173`
+**2. Zainstaluj biblioteki**
+```bash
+npm install
+```
 
+**3. Uruchom aplikację**
+```bash
+npm run dev
+```
 
 
 ## 🛠️ Użyte technologie
@@ -70,6 +79,9 @@ src/
 
 ### API
 Dane z publicznego API CoinGecko 
+
+### Wyszukiwarka
+Działa w czasie rzeczywistym po stronie przeglądarki (Client-Side Filtering). Filtruje pobraną listę 50 walut, sprawdzając, czy wpisana fraza pasuje do pełnej nazwy lub symbolu waluty.
 
 ### Tło (animacja SVG)
 Na tle generowana jest losowa linia wykresu. Zaczyna się z lewej, płynnie porusza się w prawo, powtarza się w kółko.
@@ -110,7 +122,7 @@ To małe wykresy z aplikacji TradingView. Ładują się dynamicznie gdy kliknies
 
 ## 🔮 Plany na przyszłość
 
-- Wyszukiwarka
+- Symulator/Gra
 - Dodanie wykresów akcji
 - Login
 
