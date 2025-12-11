@@ -51,7 +51,7 @@ export default function Market() {
         coin.symbol.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    if (loading) return <h2 style={{ textAlign: 'center', marginTop: '50px', color: textColor }}>Ładowanie rynku...</h2>;
+    if (loading) return <h2 style={{ textAlign: 'center', marginTop: '50px', color: textColor }}>Ładowanie...</h2>;
 
     return (
         <div style={{ 
@@ -63,22 +63,22 @@ export default function Market() {
             color: textColor,
             padding: '10px'
         }}>
+            
             <style>
                 {`
-                    .market-row { display: flex; align-items: center; padding: 15px; cursor: pointer; }
-                    .coin-rank { width: 40px; font-weight: bold; color: gray; }
-                    .coin-info { flex: 1; display: flex; align-items: center; gap: 10px; overflow: hidden; }
-                    .coin-data { text-align: right; display: flex; flex-direction: column; justify-content: center; min-width: 80px; margin-right: 15px; }
-                    .coin-price { font-weight: bold; font-size: 1rem; }
-                    .coin-percent { font-size: 0.85rem; font-weight: 600; }
-                    .coin-name-box { display: flex; flex-direction: column; }
-                    .coin-symbol { font-size: 0.8rem; color: gray; }
+                    /* Style dla komputera */
+                    .row-container { display: flex; align-items: center; padding: 15px; cursor: pointer; }
+                    .rank { width: 40px; font-weight: bold; color: gray; }
+                    .info { flex: 1; display: flex; align-items: center; gap: 10px; }
+                    .prices { text-align: right; margin-right: 15px; }
+                    .price-main { font-weight: bold; font-size: 16px; display: block; }
+                    .price-percent { font-size: 14px; font-weight: bold; }
                     
+                    /* Style dla telefonu (ekran mniejszy niż 768px) */
                     @media (max-width: 768px) {
-                        .coin-rank { display: none; }
-                        .market-row { padding: 12px 5px; }
-                        .coin-price { font-size: 0.95rem; }
-                        .header-row { display: none !important; } 
+                        .rank { display: none; } /* Ukryj numer rankingu */
+                        .header-row { display: none !important; } /* Ukryj nagłówek tabeli */
+                        .row-container { padding: 10px 5px; }
                     }
                 `}
             </style>
@@ -112,7 +112,7 @@ export default function Market() {
                     padding: '10px 15px', 
                     borderBottom: '2px solid gray', 
                     marginBottom: '5px',
-                    fontSize: '0.9rem',
+                    fontSize: '14px',
                     color: 'gray'
                 }}>
                     <div style={{ width: '40px' }}>#</div>
@@ -126,6 +126,7 @@ export default function Market() {
                 flex: 1,              
                 overflowY: 'auto',    
                 paddingBottom: '20px', 
+                paddingRight: '5px',
                 scrollbarWidth: 'thin',
                 scrollbarColor: isDark ? '#475569 #1e293b' : '#ccc #f1f1f1'
             }}>
@@ -139,31 +140,31 @@ export default function Market() {
                             return (
                                 <div key={coin.id} style={{ backgroundColor: cardBg, border: `1px solid ${borderColor}`, borderRadius: '10px', overflow: 'hidden' }}>
                                     
-                                    <div className="market-row" onClick={() => toggleRow(coin.id)}>
-                                        <div className="coin-rank">{coin.market_cap_rank}</div>
+                                    <div className="row-container" onClick={() => toggleRow(coin.id)}>
+                                        <div className="rank">{coin.market_cap_rank}</div>
                                         
-                                        <div className="coin-info">
+                                        <div className="info">
                                             <img src={coin.image} alt={coin.name} style={{ width: '32px', height: '32px', borderRadius: '50%' }} />
-                                            <div className="coin-name-box">
-                                                <span style={{ fontWeight: 'bold' }}>{coin.name}</span>
-                                                <span className="coin-symbol">{coin.symbol.toUpperCase()}</span>
+                                            <div>
+                                                <span style={{ fontWeight: 'bold', display: 'block' }}>{coin.name}</span>
+                                                <span style={{ fontSize: '12px', color: 'gray' }}>{coin.symbol.toUpperCase()}</span>
                                             </div>
                                         </div>
 
-                                        <div className="coin-data">
-                                            <span className="coin-price">${coin.current_price?.toLocaleString()}</span>
-                                            <span className="coin-percent" style={{ color: isGreen ? '#10b981' : '#ef4444' }}>
+                                        <div className="prices">
+                                            <span className="price-main">${coin.current_price?.toLocaleString()}</span>
+                                            <span className="price-percent" style={{ color: isGreen ? '#10b981' : '#ef4444' }}>
                                                 {coin.price_change_percentage_24h?.toFixed(2)}%
                                             </span>
                                         </div>
 
-                                        <div onClick={(e) => { e.stopPropagation(); toggleFavorite(coin); }} style={{ padding: '5px', cursor: 'pointer', fontSize: '1.4rem' }}>
+                                        <div onClick={(e) => { e.stopPropagation(); toggleFavorite(coin); }} style={{ padding: '5px', cursor: 'pointer', fontSize: '20px' }}>
                                             {isFav ? '❤️' : '🤍'}
                                         </div>
                                     </div>
 
                                     {isExpanded && (
-                                        <div style={{ height: '350px', borderTop: `1px solid ${borderColor}`, padding: '10px', backgroundColor: isDark ? '#0f172a' : '#f1f5f9' }}>
+                                        <div style={{ height: '350px', borderTop: `1px solid ${borderColor}`, padding: '10px', background: 'transparent' }}>
                                             <TradingViewWidget symbol={getChartSymbol(coin.symbol)} />
                                         </div>
                                     )}
