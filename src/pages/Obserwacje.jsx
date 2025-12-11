@@ -36,8 +36,8 @@ export default function Portfolio() {
             {/* 1. Co pokazać, jak nie ma ulubionych? */}
             {favorites.length === 0 ? (
                 <div style={{ textAlign: 'center', marginTop: '50px', opacity: 0.6 }}>
-                    <h2>Pusto tutaj... 🤷‍♂️</h2>
-                    <p>Idź do zakładki "Rynek" i kliknij serduszko przy kryptowalucie.</p>
+                    <h2>Nic nie obserwujesz</h2>
+                    <p>Idz dodaj coś do obserwacji</p>
                 </div>
             ) : (
                 /* 2. Lista ulubionych */

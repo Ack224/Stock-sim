@@ -1,16 +1,132 @@
-# React + Vite
+# 📈 StockSim – Symulator Giełdy Kryptowalut
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplikacja do śledzenia cen kryptowalut w czasie rzeczywistym z wykresami technicznymi.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📸 Wygląd aplikacji
 
-## React Compiler
+| Strona główna | Rynek |
+|---|---|
+| ![Home](src/assets/ss1.png) | ![Market](src/assets/ss2.png) |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## ✨ Co może robić?
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+✅ Przeglądaj TOP 50 kryptowalut z aktualnymi cenami  
+✅ Dodawaj/usuwaj waluty do ulubionych  
+✅ Oglądaj wykresy techniczne z TradingView  
+✅ Przełącz ciemny/jasny motyw  
+✅ Formularz kontaktowy z walidacją  
+✅ Pełna responsywność (mobile, tablet, desktop)  
+✅ Animowane tło
+
+---
+
+## 🚀 Szybki start
+
+```bash
+git clone https://github.com/Ack224/stock-sim.git
+cd stock-sim
+npm install
+npm run dev
+```
+
+Aplikacja otwiera się na `http://localhost:5173`
+
+---
+
+## 🛠️ Użyte technologie
+
+| Technologia | Do czego |
+|-------------|---------|
+| React 18 | Interfejs |
+| React Router | Nawigacja |
+| Context API | Motyw + Ulubione |
+| Axios | API |
+| TradingView | Wykresy |
+| localStorage | Pamiętanie wyborów |
+
+---
+
+## 📁 Struktura
+
+```
+src/
+├── components/      # Komponenty (Navigation, Layout, Tło)
+├── context/         # Zarządzanie stanem (Motyw, Ulubione)
+├── pages/           # Strony (Home, Market, Obserwacje, Kontakt, 404)
+└── App.jsx
+```
+
+---
+
+## 🎯 Jak to działa?
+
+### Context API
+- **ThemeContext** – pamięta wybrany motyw (jasny/ciemny)
+- **FavoritesContext** – pamięta które waluty dodałeś do ulubionych
+
+### React Router
+5 stron: Home → Market → Obserwacje → Kontakt → NotFound
+
+### API
+Dane z publicznego API CoinGecko (bez kluczy API)
+
+### Tło (animacja SVG)
+Na tle generowana jest losowa linia wykresu. Zaczyna się z lewej, płynnie porusza się w prawo, powtarza się w kółko.
+
+### Widgety TradingView
+To małe wykresy z aplikacji TradingView. Ładują się dynamicznie gdy klikniesz na walutę – pobierają dane finansowe z internetu i wyświetlają je na żywo.
+
+---
+
+## 📱 Responsywność
+
+**Na małym ekranie (telefon):**
+- Nawigacja schowuje się w hamburger menu
+- Elementy ułożone w jedną kolumnę
+
+**Na średnim ekranie (tablet):**
+- Elementy obok siebie w miarę miejsca
+
+**Na dużym ekranie (komputer):**
+- Pełna nawigacja widoczna zawsze
+
+---
+
+## 🐛 Znane problemy
+
+1. Brak komunikatu gdy API jest niedostępne (pokazuje "Ładowanie...")
+2. TradingView wymaga internetu
+3. Hamburger nie zamyka się automatycznie
+
+---
+
+## 💡 Co było najtrudniejsze?
+
+**Wielkość liter w importach** – Na Windows `Market.jsx` vs `market.jsx` to różne pliki  
+**TradingView Widgety** – Wykresy nie wyświetlały się z pierwszą próby, trzeba było wyczyścić kontener przed załadowaniem nowego  
+**Pamiętanie wyborów** – Gdy odświeżysz stronę, ulubione powinny zostać. Rozwiązanie: zapisywanie w pamięci przeglądarki
+
+---
+
+## 🔮 Plany na przyszłość
+
+- Live updates (WebSocket)
+- Nieskończony scroll
+- Login
+- Eksport do CSV/PDF
+- Progressive Web App
+
+---
+
+## 📞 Kontakt
+
+GitHub: [@Ack224](https://github.com/Ack224/stock-sim)
+
+---
+
+**Licencja:** MIT  
+**Czas projektu:** ~40h

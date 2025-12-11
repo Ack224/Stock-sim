@@ -2,42 +2,28 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-
-// 1. KONTEKSTY (Stan globalny)
 import { ThemeProvider } from './context/ThemeContext'
-import { FavoritesProvider } from './context/FavoritesContext' // <--- TO JEST NOWE (SERDUSZKA)
-
-// 2. STRONY
+import { FavoritesProvider } from './context/FavoritesContext'
 import Layout from './components/Layout'
 import Home from './pages/Home'
-import Market from './pages/Market'
-import Obserwacje from './pages/Obserwacje' // <--- TO JEST TWOJA GRA
-
-
+import Market from './pages/market'
+import Obserwacje from './pages/Obserwacje'
+import Kontakt from './pages/Kontakt'
+import LoginForm from './pages/LoginForm'
 import NotFound from './pages/NotFound'
 
-
-import AdminUsers from './pages/AdminUsers'
-import AdminSettings from './pages/AdminSettings'
-import Adminav from './pages/Adminnav'
-import LoginForm from './pages/LoginForm'
-
-
-import Navigation from './components/Navigation'
-import Kontakt from './pages/Kontakt'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
-    errorElement: <NotFound />,
     children: [
       {
         index: true,
         element: <Home />
       },
       {
-        path: '/market', // Zmieniłem na małą literę (standard)
+        path: '/market',
         element: <Market />
       },
       {
@@ -53,22 +39,8 @@ const router = createBrowserRouter([
         element: <LoginForm />
       },
       {
-        path: '/NotFound',
-        element: <><Navigation /></>
-      },
-      {
-        path: '/Admin',
-        element: <Adminav />,
-        children: [
-          {
-            path: '/Admin/users',
-            element: <AdminUsers />
-          },
-          {
-            path: '/Admin/settings',
-            element: <AdminSettings />
-          },
-        ]
+        path: '*',
+        element: <NotFound />
       },
     ]
   },
@@ -76,11 +48,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* 3. OWIJAMY APLIKACJĘ W PROVIDERY */}
     <ThemeProvider>
-      <FavoritesProvider> {/* <--- DZIĘKI TEMU DZIAŁAJĄ ULUBIONE */}
+      <FavoritesProvider>
         <RouterProvider router={router} />
       </FavoritesProvider>
     </ThemeProvider>
-  </StrictMode>,
+  </StrictMode>
 )

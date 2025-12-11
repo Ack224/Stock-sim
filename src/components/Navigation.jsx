@@ -1,46 +1,31 @@
-import { NavLink, Link } from "react-router-dom";
-import { useTheme } from "../context/ThemeContext"; // Pobieramy nasz hook
-import './Navigation.css';
+import React, { useState } from 'react'
+import { NavLink, Link } from 'react-router-dom'
+import { useTheme } from '../context/ThemeContext'
+import './Navigation.css'
 
 export default function Navigation() {
-    const { theme, toggleTheme } = useTheme(); // Używamy funkcji zmiany motywu
+  const { theme, toggleTheme } = useTheme()
+  const [hamburgerOpen, setHamburgerOpen] = useState(false)
 
-    return (
-        <nav className="navbar" style={{ backgroundColor: 'var(--nav-bg)' }}>
-            <Link to="/" className="nav-logo" style={{ color: 'var(--text-color)' }}>
-                StockSim 📈
-            </Link>
+  const toggleHamburger = () => setHamburgerOpen(!hamburgerOpen)
+  const closeHamburger = () => setHamburgerOpen(false)
 
-            <div className="nav-links-container">
-                <NavLink to="/" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>Home</NavLink>
-                <NavLink to="/Market" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>Rynek</NavLink>
-                <NavLink to="/obserwacje" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>Obserwacje</NavLink>
-                <NavLink to="/kontakt" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>Kontakt</NavLink>
-
-                {/* PRZYCISK ZMIANY MOTYWU */}
-                <button
-                    onClick={toggleTheme}
-                    style={{
-                        background: 'transparent',
-                        border: '1px solid var(--border-color)',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        cursor: 'pointer',
-                        fontSize: '1.2rem',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginLeft: '10px',
-                        color: 'var(--text-color)'
-                    }}
-                    title="Zmień motyw"
-                >
-                    {theme === 'light' ? '🌙' : '☀️'}
-                </button>
-                 {/*<NavLink to="/Login" className="nav-item nav-btn-login">Login</NavLink> */}
-
-            </div>
-        </nav>
-    );
+  return (
+    <nav className="navbar" style={{ backgroundColor: 'var(--nav-bg)' }}>
+      <Link to="/" className="nav-logo" style={{ color: 'var(--text-color)' }}>StockSim 📈</Link>
+      <button className="hamburger-toggle" onClick={toggleHamburger} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-color)', fontSize: '1.5rem' }}>☰</button>
+      <div className={`hamburger-menu ${hamburgerOpen ? 'open' : ''}`}>
+        <NavLink to="/" onClick={closeHamburger} className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>Home</NavLink>
+        <NavLink to="/market" onClick={closeHamburger} className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>Rynek</NavLink>
+        <NavLink to="/obserwacje" onClick={closeHamburger} className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>Obserwacje</NavLink>
+        <NavLink to="/kontakt" onClick={closeHamburger} className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>Kontakt</NavLink>
+      </div>
+      <style>{`.nav-item.active { font-weight: bold; border-bottom: 2px solid var(--accent-color); }`}</style>
+      <div className="nav-actions">
+        <button onClick={toggleTheme} style={{ background: 'transparent', border: '1px solid var(--border-color)', borderRadius: '50%', width: '40px', height: '40px', cursor: 'pointer', fontSize: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '10px', color: 'var(--text-color)' }} title="Zmień motyw">
+          {theme === 'light' ? '🌙' : '☀️'}
+        </button>
+      </div>
+    </nav>
+  )
 }
