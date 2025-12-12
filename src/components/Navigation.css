@@ -25,6 +25,7 @@
 
 .hamburger-toggle {
     display: none;
+    font-size: 2rem;
 }
 
 .hamburger-menu.open {
@@ -52,6 +53,12 @@
 
     .hamburger-toggle {
         display: block;
+    }
+
+    /* zwiększony rozmiar tekstu w menu hamburgerowym dla lepszej czytelności na telefonach */
+    .hamburger-menu .nav-item {
+        font-size: 1.4rem; /* ~18px */
+        padding: 10px 16px;
     }
 }
 
