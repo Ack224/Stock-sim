@@ -3,28 +3,25 @@ import { useTheme } from '../context/ThemeContext'
 
 export default function Tlo({ blur = false }) {
   const { theme } = useTheme()
-  
-  // Kolory zależnie od motywu
-  const isDark = theme === 'dark'
-  const accentColor = isDark ? '#34d399' : '#10b981'  // Zielony akcent
-  const bgColor = isDark ? '#0f172a' : '#ffffff'      // Tło (ciemne/jasne)
 
-  // Losowo generowana linia wykresu
+  const isDark = theme === 'dark'
+  const accentColor = isDark ? '#34d399' : '#10b981'
+  const bgColor = isDark ? '#0f172a' : '#ffffff'
+
   const [chartPath, setChartPath] = useState('')
 
   useEffect(() => {
-    let path = 'M0,400'  // Początek linii
+    let path = 'M0,400'
     let height = 400
-    
-    // Generuj 150 punktów wykresu
+
     for (let i = 1; i <= 150; i++) {
-      height += (Math.random() - 0.5) * 150  // Losowy ruch w górę/dół
-      if (height < 50) height = 100           // Min wysokość
-      if (height > 550) height = 500          // Max wysokość
-      path += ` L${i * 40},${height}`         // Dodaj punkt do ścieżki
+      height += (Math.random() - 0.5) * 150
+      if (height < 50) height = 100
+      if (height > 550) height = 500
+      path += ` L${i * 40},${height}`
     }
-    
-    setChartPath(path + ' L6000,800 L0,800 Z')  // Zamknij kształt
+
+    setChartPath(path + ' L6000,800 L0,800 Z')
   }, [])
 
   const bgStyle = {

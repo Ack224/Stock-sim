@@ -15,10 +15,8 @@ export default function NotFound() {
                     color: '#fff',
                     textDecoration: 'none',
                     borderRadius: 6,
-                }}
-            >
-                Powrót do strony głównej
-            </Link>
+                }}>
+                Powrót do strony głównej</Link>
         </div>
     );
 }
