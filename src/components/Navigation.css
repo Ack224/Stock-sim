@@ -55,9 +55,8 @@
         display: block;
     }
 
-    /* zwiększony rozmiar tekstu w menu hamburgerowym dla lepszej czytelności na telefonach */
     .hamburger-menu .nav-item {
-        font-size: 1.4rem; /* ~18px */
+        font-size: 1.4rem;
         padding: 10px 16px;
     }
 }
@@ -66,11 +65,7 @@
     font-family: 'Inter', sans-serif;
     font-size: 1.2rem;
     font-weight: 700;
-    color: white;
-    text-decoration: none;
-    letter-spacing: -0.5px;
-    display: flex;
-    align-items: center;
+
     gap: 8px;
 }
 
@@ -104,20 +99,7 @@
     background: rgba(16, 185, 129, 0.1);
 }
 
-.nav-btn-login {
-    margin-left: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    padding: 6px 18px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-}
-
-.nav-btn-login:hover {
-    border-color: var(--accent-green);
-    color: var(--accent-green);
-    background: transparent;
-}
+ 
 
 @media (max-width: 768px) {
     .navbar {
@@ -133,10 +115,6 @@
         padding: 6px 12px;
     }
 
-    .nav-btn-login {
-        font-size: 14px;
-        padding: 6px 12px;
-    }
 }
 
 @media (max-width: 480px) {
@@ -153,10 +131,7 @@
         padding: 4px 8px;
     }
 
-    .nav-btn-login {
-        font-size: 11px;
-        padding: 4px 8px;
-    }
+    
 
     .nav-links-container {
         gap: 3px;

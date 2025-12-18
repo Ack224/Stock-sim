@@ -26,7 +26,6 @@ export default function Contact() {
             setBledy(noweBledy);
         } else {
             console.log("Wysyłam:", dane);
-            // Przejdź do strony wysłano i przesłij dane
             navigate('/wysłano', { state: { dane } })
             setBledy({});
         }

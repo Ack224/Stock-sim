@@ -1,4 +1,4 @@
-/* src/components/Navigation.css */
+
 
 .navbar {
   position: sticky;
@@ -47,26 +47,13 @@
   box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
 }
 
-.nav-btn-login {
-  background-color: #10b981;
-  color: white !important;
-  padding: 8px 20px;
-  border-radius: 8px;
-  font-weight: bold;
-}
-
-.nav-btn-login:hover {
-  background-color: #059669;
-  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
-}
+ 
 
 body {
   font-family: 'Inter', sans-serif;
   background-color: #ffffff;
   color: #1e293b;
 }
-
-/* KOLORY DLA TRYBU CIEMNEGO (DARK MODE) */
 [data-theme='dark'] {
   --bg-color: #121314;
   --text-color: #f1f5f9;
@@ -76,8 +63,6 @@ body {
   --chart-fill: rgba(16, 185, 129, 0.15);
   --border-color: #334155;
 }
-
-/* RESET I BAZA */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -94,7 +79,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Ukrywa pasek scrollbara */
 ::-webkit-scrollbar {
   display: none;
 }
@@ -103,4 +87,17 @@ html,
 body {
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+.row-container { display: flex; align-items: center; padding: 15px; cursor: pointer; }
+.rank { width: 40px; font-weight: bold; color: gray; }
+.info { flex: 1; display: flex; align-items: center; gap: 10px; }
+.prices { text-align: right; margin-right: 15px; }
+.price-main { font-weight: bold; font-size: 16px; display: block; }
+.price-percent { font-size: 14px; font-weight: bold; }
+
+@media (max-width: 768px) {
+  .rank { display: none; }
+  .header-row { display: none !important; }
+  .row-container { padding: 10px 5px; }
 }

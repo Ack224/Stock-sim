@@ -64,24 +64,7 @@ export default function Market() {
             padding: '10px'
         }}>
             
-            <style>
-                {`
-                    /* Style dla komputera */
-                    .row-container { display: flex; align-items: center; padding: 15px; cursor: pointer; }
-                    .rank { width: 40px; font-weight: bold; color: gray; }
-                    .info { flex: 1; display: flex; align-items: center; gap: 10px; }
-                    .prices { text-align: right; margin-right: 15px; }
-                    .price-main { font-weight: bold; font-size: 16px; display: block; }
-                    .price-percent { font-size: 14px; font-weight: bold; }
-                    
-                    /* Style dla telefonu (ekran mniejszy niż 768px) */
-                    @media (max-width: 768px) {
-                        .rank { display: none; } /* Ukryj numer rankingu */
-                        .header-row { display: none !important; } /* Ukryj nagłówek tabeli */
-                        .row-container { padding: 10px 5px; }
-                    }
-                `}
-            </style>
+            
 
             <div>
                 <h1 style={{ textAlign: 'center', fontSize: '32px', marginBottom: '20px' }}>

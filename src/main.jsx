@@ -10,7 +10,6 @@ import Market from './pages/Market'
 import Obserwacje from './pages/Obserwacje'
 import Kontakt from './pages/Kontakt'
 import Wysłano from './pages/Wysłano'
-import LoginForm from './pages/LoginForm'
 import NotFound from './pages/NotFound'
 
 
@@ -28,7 +27,7 @@ const router = createBrowserRouter([
         element: <Market />
       },
       {
-        path: '/obserwacje', // <--- TU JEST TWOJA GRA
+        path: '/obserwacje',
         element: <Obserwacje />
       },
       {
@@ -39,10 +38,8 @@ const router = createBrowserRouter([
         path: '/wysłano',
         element: <Wysłano />
       },
-      {
-        path: '/Login',
-        element: <LoginForm />
-      },
+      
+      
       {
         path: '*',
         element: <NotFound />
