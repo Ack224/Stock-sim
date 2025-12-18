@@ -107,16 +107,16 @@ To małe wykresy z aplikacji TradingView. Ładują się dynamicznie gdy kliknies
 
 ## 🐛 Znane problemy
 
-1. Brak komunikatu gdy API jest niedostępne (pokazuje "Ładowanie...")
-2. TradingView wymaga internetu
-3. Hamburger nie zamyka się automatycznie
+1. TradingView nie wyświetla wszystkich Kryptowalut
+2. Hamburger nie zamyka się automatycznie
 
 
 
 ## 💡 Co było najtrudniejsze?
  
-**TradingView Widgety** – Wykresy nie wyświetlały się z pierwszą próby, trzeba było wyczyścić kontener przed załadowaniem nowego  
-**Pamiętanie wyborów** – Gdy odświeżysz stronę, ulubione powinny zostać. Rozwiązanie: zapisywanie w pamięci przeglądarki
+**TradingView Widgety** – Wykresy nie wyświetlały się z pierwszą próby, trzeba było wyczyścić kontener przed załadowaniem nowego.
+**Pamiętanie wyborów** – Gdy odświeżysz stronę ulubione powinny zostać. Rozwiązanie: zapisywanie w pamięci przeglądarki.
+**Tło** - Animowane tło stworzone za pomocą losowego punktu Y i rysowanie za pomocą SVG ścieszki którą pózniej się przesuwa.
 
 
 
